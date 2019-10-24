@@ -1,0 +1,82 @@
+
+Section 8: uEnv.txt and initramfs
+* This section didn't work forme
+* Had to use bootz find a different boot path and name for zImage
+#1 Load kernel
+=> load mmc 1:1 0x82000000 /boot/vmlinuz-4.14.71-ti-r80
+10416640 bytes read in 660 ms (15.1 MiB/s)
+#2 Load DTB
+=> load mmc 1:1 0x88000000 /boot/dtbs/4.14.71-ti-r80/am335x-boneblack.dtb
+60317 bytes read in 15 ms (3.8 MiB/s)
+#3 Set bootargs var
+=> setenv bootargs console=ttyO0,115200
+=> printenv bootargs
+bootargs=console=ttyO0,115200
+#4 Finally Boot the zImage
+=> bootz 0x82000000 - 0x88000000                                         
+## Flattened Device Tree blob at 88000000
+   Booting using the fdt blob at 0x88000000
+   Loading Device Tree to 8ffee000, end 8ffffb9c ... OK
+
+
+
+
+U-Boot SPL 2018.09-00002-g0b54a51eee (Sep 10 2018 - 19:41:39 -0500)
+Trying to boot from MMC2
+Loading Environment from EXT4... Card did not respond to voltage select!
+
+
+=> ext4ls mmc 1:1 /boot
+<DIR>       4096 .
+<DIR>       4096 ..
+<DIR>       4096 dtbs
+<DIR>       4096 uboot
+              30 .eeprom.txt
+             542 SOC.sh
+            2042 uEnv.txt
+         3644943 System.map-4.14.71-ti-r80
+          160842 config-4.14.71-ti-r80
+         4530240 initrd.img-4.14.71-ti-r80
+        10416640 vmlinuz-4.14.71-ti-r80
+=> ext4ls mmc 1:1 /boot/uboot
+<DIR>       4096 .
+<DIR>       4096 ..
+=> ext4ls mmc 1:1 /boot/dtbs/
+<DIR>       4096 .
+<DIR>       4096 ..
+<DIR>       4096 4.14.71-ti-r80
+=> ext4ls mmc 1:1 /boot/dtbs/<INTERRUPT>
+=> load mmc 1:1 0x82000000 /boot/vmlinuz-4.14.71-ti-r80
+10416640 bytes read in 661 ms (15 MiB/s)
+
+
+U-Boot 2018.09-00002-g0b54a51eee (Sep 10 2018 - 19:41:39 -0500), Build: jenkins-github_Bootloader-Builder-5
+
+CPU  : AM335X-GP rev 2.1
+I2C:   ready
+DRAM:  512 MiB
+
+Press SPACE to abort autoboot in 2 seconds
+#1 Load kernel
+=> load mmc 1:1 0x82000000 /boot/vmlinuz-4.14.71-ti-r80
+10416640 bytes read in 660 ms (15.1 MiB/s)
+
+#2 Load DTB
+=> load mmc 1:1 0x88000000 /boot/dtbs/4.14.71-ti-r80/am335x-boneblack.dtb
+60317 bytes read in 15 ms (3.8 MiB/s)
+=> printenv bootargs
+## Error: "bootargs" not defined
+
+#3 Set bootargs var
+=> setenv bootargs console=ttyO0,115200
+=> printenv bootargs
+bootargs=console=ttyO0,115200
+
+#4 Finally Boot the zImage
+=> bootz 0x82000000 - 0x88000000                                         
+## Flattened Device Tree blob at 88000000
+   Booting using the fdt blob at 0x88000000
+   Loading Device Tree to 8ffee000, end 8ffffb9c ... OK
+
+
+

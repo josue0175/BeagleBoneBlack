@@ -1,0 +1,24 @@
+https://www.itdev.co.uk/blog/building-linux-kernel-cross-compiling-beaglebone-black
+
+git clone https://github.com/beagleboard/linux.git
+
+#setup cross-chain compiler
+#Download from https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads
+
+#set path variable to point to bin directory of cross-compiler
+PATH="$HOME/BeagleBoneBlack/gcc-arm-none-eabi-8-2019-q3-update/bin:$PATH"
+
+#Move to linux directory find the right branch and build!
+1036  make ARCH=arm CROSS_COMPILE=/home/jgiles/BeagleBoneBlack/gcc-arm-none-eabi-9-2019-q3-update/bin/arm-none-eabi- distclean
+ 1037  make ARCH=arm CROSS_COMPILE=/home/jgiles/BeagleBoneBlack/gcc-arm-none-eabi-9-2019-q3-update/bin/arm-none-eabi- bb.org_defconfig
+ 1038  make ARCH=arm CROSS_COMPILE=/home/jgiles/BeagleBoneBlack/gcc-arm-none-eabi-9-2019-q3-update/bin/arm-none-eabi-  uImage dtbs LOADADDR=0x80008000 -j4
+ 1038  make ARCH=arm CROSS_COMPILE=/home/jgiles/BeagleBoneBlack/gcc-arm-none-eabi-9-2019-q3-update/bin/arm-none-eabi- modules -j4
+sudo make ARCH=arm CROSS_COMPILE=/home/jgiles/BeagleBoneBlack/gcc-arm-none-eabi-9-2019-q3-update/bin/arm-none-eabi- CONFIG_PREFIX=/home/jgiles/BeagleBoneBlack/rfs_install modules_install -j4
+
+
+#build modules
+ make ARCH=arm CROSS_COMPILE=arm-none-eabi- modules -jr
+
+#install modules
+
+ make ARCH=arm CROSS_COMPILE=arm-none-eabi- CONFIG_PREFIX=/home/jgiles/BeagleBoneBlack/rfs_install -j4 

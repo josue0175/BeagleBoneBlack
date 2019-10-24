@@ -1,0 +1,62 @@
+#Original Source
+#https://beagleboard.org/p/30847/yocto-on-beaglebone-black-9ae649
+
+git warrior-poky
+
+  source oe-init-build-env 
+  vi conf/local.conf 
+  bitbake core-image-minimal
+
+#
+#BOOT Method 1 Use WIC file to boot via sd card#
+#
+  mkdir /run/media/jgiles/boot/dtb
+  cp tmp/deploy/images/beaglebone-yocto/am335x-boneblack-beaglebone-yocto.dtb /run/media/jgiles/boot/dtb/
+  ls tmp/deploy/images/beaglebone-yocto/*.wic
+
+  sudo dd if=./tmp/deploy/images/beaglebone-yocto/core-image-minimal-beaglebone-yocto.wic of=/dev/mmcblk0
+  sync
+
+#  
+#BOOT Method 2 copy all files to properly formatted card#
+#
+
+#1st create partitions/filesystems#
+Partition 1:
+Set the “boot” flag for the first partition.
+type: FAT32
+size: around 30MB
+label: BOOT
+flags: boot and lba
+
+Partition2:
+type: ext4
+size: around 200MB, or remaining SD-card space
+label: ROOT
+
+#2nd copy bootloaders and rootfs to sd#
+  ##cp tmp/deploy/images/beaglebone-yocto/{MLO,u-boot.img,zImage} /run/media/jgiles/boot/
+  
+  sudo tar x -C /run/media/jgiles/root -f core-image-minimal-beaglebone-yocto.tar.bz2 
+  umount /run/media/jgiles/root 
+  umount /run/media/jgiles/BOOT 
+
+###################
+## NOTES
+###################
+In order to get past:
+"Loading Environment from FAT... *** Warning - bad CRC, using default environment"
+
+I had to:
+env default -a 
+saveenv
+
+=> fatls mmc 0:1
+    76920   MLO
+   417148   u-boot.img
+  6431024   zImage
+   131072   uboot.env
+
+4 file(s), 0 dir(s)
+
+##3rd

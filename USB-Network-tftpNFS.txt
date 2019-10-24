@@ -1,0 +1,15 @@
+https://bootlin.com/blog/tftp-nfs-booting-beagle-bone-black-wireless-pocket-beagle/
+
+setenv ipaddr 192.168.0.100
+setenv serverip 192.168.0.1
+setenv ethact usb_ether
+setenv usbnet_devaddr f8:dc:7a:00:00:02
+setenv usbnet_hostaddr f8:dc:7a:00:00:01
+saveenv
+
+tftp 0x81000000 hello.txt
+
+md 0x81000000
+
+  708  nmcli con add type ethernet ifname enp0s20f0u1c2 ip4 192.168.0.1/24
+

@@ -1,0 +1,22 @@
+console=ttyO0,115200n8
+ipaddr=192.168.7.2
+serverip=192.168.7.1
+rootpath="/srv/nfs/bbb,nolock,wsize=1024,rsize=1024 rootwait rootdelay=5"
+
+netargs=setenv bootargs="console=${console} root=/dev/nfs rw nfsroot=${serverip}:${rootpath}"
+uenvcmd=setenv autoload no; run loadtftp; run netargs; bootm ${loadaddr} - ${fdtaddr}
+
+=>
+setenv rootpath "/srv/nfs/bbb,nolock,wsize=1024,rsize=1024 rootwait rootdelay=5"
+setenv loadtftp "echo Booting from network ...;tftpboot ${loadaddr} uImage; tftpboot ${fdtaddr} ${absolutepath}am335x-boneblack.dtb"
+setenv rootfstype nfs 
+setenv nfsvers 3
+setenv netargs "setenv bootargs console=${console} root=/dev/nfs rw nfsroot=${serverip}:${rootpath} rootfstype=nfs nfsvers=3 nfsrootdebug "
+setenv autoload no; run loadtftp; run netargs; bootm ${loadaddr} - ${fdtaddr}
+=>
+
+
+#absolutepath=/var/lib/tftpboot/
+#loadtftp="echo Booting from network ...";tftpboot ${loadaddr} uImage; tftpboot ${fdtaddr} ${absolutepath}am335x-boneblack.dtb
+
+setenv bootargs console=ttyO0,115200n8 root=/dev/nfs rw nfsroot=192.168.0.1:/srv/nfs/bbb/,nolock, wsize=1024, rsize=1024 rootwait init=/linuxrc rootdelay=5 ip=192.168.0.100

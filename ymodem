@@ -1,0 +1,24 @@
+yload
+ctrl-a s
+select ymodem
+move up/down
+2 spacebar to select dir
+1 spacebar to select file
+Then enter
+
+Importing variable from variable addresses:
+env import -t <memory addr> <size in bytes>
+
+=> loady                                                                           
+                                                                                   
+## Ready for binary (ymodem) download to 0x82000000 at 115200 bps...               
+                                                                                   
+C/0(CAN) packets, 4 retries                                                        
+                                                                                   
+## Total Size      = 0x000001f3 = 499 Bytes                                        
+                                                                                   
+=> env import -t 0x82000000 512                                                    
+                                                                                   
+=> printenv bootargs                                                               
+                                                                                   
+bootargs=console=ttyO0,115200 root=/dev/mmcblk1p1 rw      
