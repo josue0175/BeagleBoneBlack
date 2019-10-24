@@ -2,6 +2,23 @@ https://www.itdev.co.uk/blog/building-linux-kernel-cross-compiling-beaglebone-bl
 
 git clone https://github.com/beagleboard/linux.git
 
+#### NEW toolchain instructions ####
+jgiles@beaglebone busybox-1.30.0]$ cat /etc/yum.repos.d/armtool.repo 
+[copr:copr.fedorainfracloud.org:lantw44:arm-linux-gnueabi-toolchain]
+name=Copr repo for arm-linux-gnueabi-toolchain owned by lantw44
+baseurl=https://copr-be.cloud.fedoraproject.org/results/lantw44/arm-linux-gnueabi-toolchain/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/lantw44/arm-linux-gnueabi-toolchain/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+
+
+
+
 #setup cross-chain compiler
 #Download from https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads
 
